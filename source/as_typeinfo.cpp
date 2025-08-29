@@ -50,6 +50,10 @@ asCTypeInfo::asCTypeInfo()
 	flags = 0;
 	typeId = -1; // start as -1 to signal that it hasn't been defined
 
+	uniqueId = -1; // Kizoky: -1 is invalid, or it's a function or something else that doesn't need id.
+	owner = NULL; // Kizoky: has no owner at start. Combine it with uniqueId
+	hasOwner = false; // Kizoky: in case owner pointer returns null and we don't know if it was global or not
+
 	scriptSectionIdx = -1;
 	declaredAt = 0;
 
@@ -66,6 +70,10 @@ asCTypeInfo::asCTypeInfo(asCScriptEngine *in_engine)
 	size = 0;
 	flags = 0;
 	typeId = -1; // start as -1 to signal that it hasn't been defined
+
+	uniqueId = -1; // Kizoky: -1 is invalid, or it's a function or something else that doesn't need id.
+	owner = NULL; // Kizoky: has no owner at start. Combine it with uniqueId
+	hasOwner = false; // Kizoky: in case owner pointer returns null and we don't know if it was global or not
 
 	scriptSectionIdx = -1;
 	declaredAt = 0;
@@ -184,6 +192,16 @@ void *asCTypeInfo::GetUserData(asPWORD type) const
 	return 0;
 }
 
+const char* asCTypeInfo::GetScriptClass() const
+{
+	return scriptClass.AddressOf();
+}
+
+void asCTypeInfo::SetScriptClass(const char* value)
+{
+	scriptClass = value;
+}
+
 // interface
 const char *asCTypeInfo::GetName() const
 {
@@ -226,6 +244,27 @@ int asCTypeInfo::GetTypeId() const
 	}
 
 	return typeId;
+}
+
+int asCTypeInfo::GetUniqueId() const
+{
+	return uniqueId;
+}
+
+void* asCTypeInfo::GetOwner() const
+{
+	return owner;
+}
+
+void asCTypeInfo::SetOwner(void* ptr)
+{
+	owner = ptr;
+	hasOwner = true;
+}
+
+bool asCTypeInfo::HasOwner() const
+{
+	return hasOwner;
 }
 
 // interface

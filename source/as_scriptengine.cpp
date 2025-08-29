@@ -1813,7 +1813,7 @@ asCTypeInfo* asCScriptEngine::GetTemplateSubTypeByName(const asCString &name)
 	return subtype;
 }
 
-int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD flags)
+int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD flags, int uniqueId)
 {
 	int r;
 
@@ -1866,8 +1866,8 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 						 asOBJ_APP_CLASS_ASSIGNMENT       |
 						 asOBJ_APP_CLASS_COPY_CONSTRUCTOR |
 						 asOBJ_APP_CLASS_ALLINTS          |
-						 asOBJ_APP_CLASS_ALLFLOATS        |
-						 asOBJ_APP_CLASS_UNION) )
+						 asOBJ_APP_CLASS_ALLFLOATS        /* |
+						 asOBJ_APP_CLASS_UNION*/))
 			{
 				return ConfigError(asINVALID_ARG, "RegisterObjectType", name, 0);
 			}
@@ -1944,6 +1944,8 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 #endif
 		type->flags      = flags;
 		type->accessMask = defaultAccessMask;
+		// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
+		type->uniqueId	 = uniqueId;
 
 		// Store it in the object types
 		allRegisteredTypes.Insert(asSNameSpaceNamePair(type->nameSpace, type->name), type);
@@ -2014,6 +2016,8 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 #endif
 			type->flags      = flags;
 			type->accessMask = defaultAccessMask;
+			// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
+			type->uniqueId = uniqueId;
 
 			allRegisteredTypes.Insert(asSNameSpaceNamePair(type->nameSpace, type->name), type);
 			registeredObjTypes.PushLast(type);
@@ -2076,6 +2080,8 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 #endif
 			type->flags      = flags;
 			type->accessMask = defaultAccessMask;
+			// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
+			type->uniqueId = uniqueId;
 
 			templateInstanceTypes.PushLast(type);
 

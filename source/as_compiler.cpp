@@ -16124,7 +16124,7 @@ void asCCompiler::CompileMathOperator(asCScriptNode *node, asCExprContext *lctx,
 			else if( op == ttStarStar )
 			{
 				v = powf(lctx->type.GetConstantF(), rctx->type.GetConstantF());
-				if( v == HUGE_VALF || isinf(v) )
+				if( v == (float)HUGE_VAL /*|| isinf(v)*/)
 					Error(TXT_POW_OVERFLOW, node);
 			}
 
@@ -16140,7 +16140,7 @@ void asCCompiler::CompileMathOperator(asCScriptNode *node, asCExprContext *lctx,
 				if( op == ttStarStar || op == ttPowAssign )
 				{
 					v = pow(lctx->type.GetConstantD(), int(rctx->type.GetConstantDW()));
-					if( v == HUGE_VAL || isinf(v) )
+					if( v == (double)HUGE_VAL /* || isinf(v)*/)
 						Error(TXT_POW_OVERFLOW, node);
 				}
 				else
@@ -16171,7 +16171,7 @@ void asCCompiler::CompileMathOperator(asCScriptNode *node, asCExprContext *lctx,
 				else if( op == ttStarStar )
 				{
 					v = pow(lctx->type.GetConstantD(), rctx->type.GetConstantD());
-					if( v == HUGE_VAL || isinf(v))
+					if( v == (double)HUGE_VAL /* || isinf(v)*/)
 						Error(TXT_POW_OVERFLOW, node);
 				}
 			}

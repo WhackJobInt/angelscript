@@ -210,7 +210,7 @@ enum asECallConvTypes
 };
 
 // Object type flags
-enum asEObjTypeFlags : asQWORD
+enum asEObjTypeFlags
 {
 	asOBJ_REF                         = (1<<0),
 	asOBJ_VALUE                       = (1<<1),
@@ -240,7 +240,7 @@ enum asEObjTypeFlags : asQWORD
 	asOBJ_APP_CLASS_A                 = (asOBJ_APP_CLASS + asOBJ_APP_CLASS_ASSIGNMENT),
 	asOBJ_APP_CLASS_AK                = (asOBJ_APP_CLASS + asOBJ_APP_CLASS_ASSIGNMENT + asOBJ_APP_CLASS_COPY_CONSTRUCTOR),
 	asOBJ_APP_CLASS_K                 = (asOBJ_APP_CLASS + asOBJ_APP_CLASS_COPY_CONSTRUCTOR),
-	asOBJ_APP_CLASS_MORE_CONSTRUCTORS = (asQWORD(1) << 31),
+	asOBJ_APP_CLASS_MORE_CONSTRUCTORS = (1 << 31),
 	asOBJ_APP_PRIMITIVE               = (1<<13),
 	asOBJ_APP_FLOAT                   = (1<<14),
 	asOBJ_APP_ARRAY                   = (1<<15),
@@ -249,8 +249,8 @@ enum asEObjTypeFlags : asQWORD
 	asOBJ_NOCOUNT                     = (1<<18),
 	asOBJ_APP_CLASS_ALIGN8            = (1<<19),
 	asOBJ_IMPLICIT_HANDLE             = (1<<20),
-	asOBJ_APP_CLASS_UNION             = (asQWORD(1)<<32),
-	asOBJ_MASK_VALID_FLAGS            = 0x1801FFFFFul,
+	//asOBJ_APP_CLASS_UNION             = (1<<32), // Kizoky: seems to be safe to comment out, for now...
+	asOBJ_MASK_VALID_FLAGS            = 0x801FFFFF,
 	// Internal flags
 	asOBJ_SCRIPT_OBJECT               = (1<<21),
 	asOBJ_SHARED                      = (1<<22),
@@ -699,7 +699,7 @@ public:
 	virtual int    GetGlobalPropertyIndexByDecl(const char *decl) const = 0;
 
 	// Object types
-	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags) = 0;
+	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags, int uniqueId = -1) = 0;
 	virtual int            RegisterObjectProperty(const char *obj, const char *declaration, int byteOffset, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
 	virtual int            RegisterObjectMethod(const char *obj, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
 	virtual int            RegisterObjectBehaviour(const char *obj, asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
@@ -1044,6 +1044,14 @@ public:
 	virtual int                    Release() const = 0;
 	virtual asILockableSharedBool *GetWeakRefFlag() const = 0;
 
+	// Postal 3-related - Kizoky
+	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
+	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
+	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
+	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
+	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
+	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class
+
 	// Type info
 	virtual int            GetTypeId() const = 0;
 	virtual asITypeInfo   *GetObjectType() const = 0;
@@ -1078,6 +1086,14 @@ public:
 	// Memory management
 	virtual int AddRef() const = 0;
 	virtual int Release() const = 0;
+
+	// Postal 3-related - Kizoky
+	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
+	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
+	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
+	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
+	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
+	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class
 
 	// Type info
 	virtual const char      *GetName() const = 0;

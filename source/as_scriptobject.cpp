@@ -772,6 +772,36 @@ int asCScriptObject::GetTypeId() const
 	return objType->engine->GetTypeIdFromDataType(dt);
 }
 
+int asCScriptObject::GetUniqueId() const
+{
+	return objType->uniqueId;
+}
+
+void* asCScriptObject::GetOwner() const
+{
+	return objType->owner;
+}
+
+void asCScriptObject::SetOwner(void* ptr)
+{
+	objType->owner = ptr;
+}
+
+bool asCScriptObject::HasOwner() const
+{
+	return objType->hasOwner;
+}
+
+const char* asCScriptObject::GetScriptClass() const
+{
+	return objType->scriptClass.AddressOf();
+}
+
+void asCScriptObject::SetScriptClass(const char* value)
+{
+	objType->scriptClass = value;
+}
+
 asUINT asCScriptObject::GetPropertyCount() const
 {
 	return asUINT(objType->properties.GetLength());

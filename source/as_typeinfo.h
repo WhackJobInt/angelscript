@@ -75,6 +75,14 @@ public:
 	int AddRef() const;
 	int Release() const;
 
+	// Postal 3-related - Kizoky
+	int              GetUniqueId() const; // Kizoky: unique id
+	void*            GetOwner() const; // Kizoky: pointer to owner
+	void             SetOwner(void* ptr); // Kizoky: set the owner
+	bool             HasOwner() const; // Kizoky: Do I have an owner? (could be a func or var instead)
+	const char*      GetScriptClass() const;
+	void             SetScriptClass(const char* value);
+
 	// Type info
 	const char      *GetName() const;
 	const char      *GetNamespace() const;
@@ -162,6 +170,12 @@ public:
 	mutable int                  typeId;
 	asQWORD                      flags;
 	asDWORD                      accessMask;
+
+	// Postal 3-related - Kizoky
+	int                          uniqueId; // Kizoky: add a custom id for TypeInfo
+	void*                        owner; // Kizoky: the "owner" of this TypeInfo, meant for world objects (P3S), but could be a bad idea (use SetUserData instead?)
+	bool                         hasOwner; // Kizoky: owner could return null but we wouldn't know if it was a global call
+	asCString                    scriptClass; // Kizoky: Object is tied to this script class
 
 	// Store the script section where the code was declared
 	int                             scriptSectionIdx;

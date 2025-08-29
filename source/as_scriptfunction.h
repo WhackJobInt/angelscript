@@ -298,7 +298,7 @@ public:
 	void ReleaseAllHandles(asIScriptEngine *engine);
 
 	// Don't allow the script function to be copied
-	asCScriptFunction(const asCScriptFunction&) = delete;
+	asCScriptFunction(const asCScriptFunction&) { (void)0; };
 
 public:
 	//-----------------------------------

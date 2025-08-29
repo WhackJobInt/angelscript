@@ -38,6 +38,7 @@
 
 #ifdef _MSC_VER
 #pragma warning(disable:4345) // warning about a change in how the code is handled in this version
+#pragma warning (disable: 4351) // Kizoky: VS2010 can't stop screaming about arrays
 #endif
 
 BEGIN_AS_NAMESPACE
