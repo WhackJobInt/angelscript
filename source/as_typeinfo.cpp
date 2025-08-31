@@ -72,7 +72,7 @@ asCTypeInfo::asCTypeInfo(asCScriptEngine *in_engine)
 	typeId = -1; // start as -1 to signal that it hasn't been defined
 
 	uniqueId = -1; // Kizoky: -1 is invalid, or it's a function or something else that doesn't need id.
-	owner = NULL; // Kizoky: has no owner at start. Combine it with uniqueId
+	owner = asEHANDLE_NULL; // Kizoky: has no owner at start. Combine it with uniqueId
 	hasOwner = false; // Kizoky: in case owner pointer returns null and we don't know if it was global or not
 
 	scriptSectionIdx = -1;
@@ -251,15 +251,15 @@ int asCTypeInfo::GetUniqueId() const
 	return uniqueId;
 }
 
-void* asCTypeInfo::GetOwner() const
+asEHANDLE asCTypeInfo::GetOwner() const
 {
 	return owner;
 }
 
-void asCTypeInfo::SetOwner(void* ptr)
+void asCTypeInfo::SetOwner(asEHANDLE ent)
 {
-	owner = ptr;
-	hasOwner = true;
+	owner = ent;
+	hasOwner = true; // This way we know we set the owner at least once, so it can't be "invalid"
 }
 
 bool asCTypeInfo::HasOwner() const
