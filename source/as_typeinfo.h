@@ -77,8 +77,8 @@ public:
 
 	// Postal 3-related - Kizoky
 	int              GetUniqueId() const; // Kizoky: unique id
-	asEHANDLE        GetOwner() const; // Kizoky: pointer to owner
-	void             SetOwner(asEHANDLE ent); // Kizoky: set the owner
+	void*            GetOwner() const; // Kizoky: pointer to owner
+	void             SetOwner(void* ptr); // Kizoky: set the owner
 	bool             HasOwner() const; // Kizoky: Do I have an owner? (could be a func or var instead)
 	const char*      GetScriptClass() const;
 	void             SetScriptClass(const char* value);
@@ -173,7 +173,7 @@ public:
 
 	// Postal 3-related - Kizoky
 	int                          uniqueId; // Kizoky: add a custom id for TypeInfo
-	asEHANDLE                    owner; // Kizoky: the "owner" of this TypeInfo, meant for world objects
+	void*                        owner; // Kizoky: the "owner" of this TypeInfo, meant for world objects (P3S), but could be a bad idea (use SetUserData instead?)
 	bool                         hasOwner; // Kizoky: owner could return null but we wouldn't know if it was a global call
 	asCString                    scriptClass; // Kizoky: Object is tied to this script class
 

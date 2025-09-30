@@ -63,22 +63,6 @@ BEGIN_AS_NAMESPACE
 
 // Data types
 
-// Postal 3-related - Kizoky
-#include "stdint.h"
-typedef uint32_t asEHANDLE; // Token for EHANDLE - Kizoky
-#define asEHANDLE_NULL	0xFFFFFFFF // internal for INVALID_EHANDLE_INDEX - Kizoky
-// Here's how you can use asEHANDLE: (inside the actual src of the game)
-//// Setting:
-// EHANDLE ent; // the handle to any entity
-// asEHANDLE hdl = static_cast<asEHANDLE>(ent.ToInt());
-// obj->SetOwner(hdl); // this can be asITypeInfo or asIScriptObject
-//
-//// Getting:
-// asEHANDLE hdl = obj->GetOwner(); // this can be asITypeInfo or asIScriptObject
-// EHANDLE ent = EHANDLE::FromIndex(static_cast<int>(hdl));
-//
-//
-
 class asIScriptEngine;
 class asIScriptModule;
 class asIScriptContext;
@@ -1062,8 +1046,8 @@ public:
 
 	// Postal 3-related - Kizoky
 	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
-	virtual asEHANDLE      GetOwner() const = 0; // Kizoky: owner handle
-	virtual void           SetOwner(asEHANDLE ent) = 0; // Kizoky: set owner handle, also sets HasOwner to true
+	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
+	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
 	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
 	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
 	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class
@@ -1105,8 +1089,8 @@ public:
 
 	// Postal 3-related - Kizoky
 	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
-	virtual asEHANDLE      GetOwner() const = 0; // Kizoky: owner pointer
-	virtual void           SetOwner(asEHANDLE ent) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
+	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
+	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
 	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
 	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
 	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class

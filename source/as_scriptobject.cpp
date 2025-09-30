@@ -777,14 +777,14 @@ int asCScriptObject::GetUniqueId() const
 	return objType->uniqueId;
 }
 
-asEHANDLE asCScriptObject::GetOwner() const
+void* asCScriptObject::GetOwner() const
 {
 	return objType->owner;
 }
 
-void asCScriptObject::SetOwner(asEHANDLE ent)
+void asCScriptObject::SetOwner(void* ptr)
 {
-	objType->SetOwner(ent);
+	objType->owner = ptr;
 }
 
 bool asCScriptObject::HasOwner() const
