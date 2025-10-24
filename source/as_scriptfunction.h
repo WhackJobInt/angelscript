@@ -189,6 +189,10 @@ public:
 	int                  GetParam(asUINT index, int *typeId, asDWORD *flags = 0, const char **name = 0, const char **defaultArg = 0) const;
 	int                  GetReturnTypeId(asDWORD *flags = 0) const;
 
+	// Postal 3-related - Kizoky
+	int                  GetReturnUniqueId(asDWORD* flags = 0) const;
+	int                  GetReturnInheritId(asDWORD* flags = 0) const;
+
 	// Template functions
 	asUINT       GetSubTypeCount() const;
 	int          GetSubTypeId(asUINT subTypeIndex = 0) const;

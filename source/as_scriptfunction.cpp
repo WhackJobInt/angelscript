@@ -1466,6 +1466,71 @@ int asCScriptFunction::GetReturnTypeId(asDWORD *flags) const
 	return engine->GetTypeIdFromDataType(returnType);
 }
 
+int asCScriptFunction::GetReturnUniqueId(asDWORD* flags) const
+{
+	if (flags)
+	{
+		if (returnType.IsReference())
+		{
+			*flags = asTM_INOUTREF;
+			*flags |= returnType.IsReadOnly() ? asTM_CONST : 0;
+		}
+		else
+			*flags = asTM_NONE;
+	}
+
+	// void function
+	if (returnType.IsNullHandle()) 
+		return asTYPEID_VOID;
+
+	// Return is an object type
+	if (returnType.GetTypeInfo())
+		return returnType.GetTypeInfo()->uniqueId;
+
+	// All types should be covered by below. If not, the variable type is not really a type
+	switch (returnType.GetTokenType())
+	{
+		case ttVoid:   return asTYPEID_VOID;
+		case ttBool:   return asTYPEID_BOOL;
+		case ttInt8:   return asTYPEID_INT8;
+		case ttInt16:  return asTYPEID_INT16;
+		case ttInt:    return asTYPEID_INT32;
+		case ttInt64:  return asTYPEID_INT64;
+		case ttUInt8:  return asTYPEID_UINT8;
+		case ttUInt16: return asTYPEID_UINT16;
+		case ttUInt:   return asTYPEID_UINT32;
+		case ttUInt64: return asTYPEID_UINT64;
+		case ttFloat:  return asTYPEID_FLOAT;
+		case ttDouble: return asTYPEID_DOUBLE;
+	}
+
+	return -2;
+}
+
+int asCScriptFunction::GetReturnInheritId(asDWORD* flags) const
+{
+	if (flags)
+	{
+		if (returnType.IsReference())
+		{
+			*flags = asTM_INOUTREF;
+			*flags |= returnType.IsReadOnly() ? asTM_CONST : 0;
+		}
+		else
+			*flags = asTM_NONE;
+	}
+
+	// void function
+	if (returnType.IsNullHandle())
+		return -2;
+
+	// Return is an object type
+	if (returnType.GetTypeInfo())
+		return returnType.GetTypeInfo()->inheritId;
+
+	return -2;
+}
+
 // interface
 asUINT asCScriptFunction::GetParamCount() const
 {

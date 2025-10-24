@@ -1104,6 +1104,10 @@ public:
 	virtual asITypeInfo     *GetSubType(asUINT subTypeIndex = 0) const = 0;
 	virtual asUINT           GetSubTypeCount() const = 0;
 
+	// Postal 3-related - Kizoky
+	virtual int              GetSubTypeUniqueId(asUINT subTypeIndex = 0) const = 0;
+	virtual int              GetSubTypeInheritId(asUINT subTypeIndex = 0) const = 0;
+
 	// Interfaces
 	virtual asUINT           GetInterfaceCount() const = 0;
 	virtual asITypeInfo     *GetInterface(asUINT index) const = 0;
@@ -1192,6 +1196,10 @@ public:
 	virtual asUINT           GetParamCount() const = 0;
 	virtual int              GetParam(asUINT index, int *typeId, asDWORD *flags = 0, const char **name = 0, const char **defaultArg = 0) const = 0;
 	virtual int              GetReturnTypeId(asDWORD *flags = 0) const = 0;
+
+	// Postal 3-related - Kizoky
+	virtual int              GetReturnUniqueId(asDWORD* flags = 0) const = 0;
+	virtual int              GetReturnInheritId(asDWORD* flags = 0) const = 0;
 
 	// Template functions
 	virtual asUINT           GetSubTypeCount() const = 0;

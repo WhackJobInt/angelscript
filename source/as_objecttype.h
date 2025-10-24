@@ -106,6 +106,10 @@ public:
 	int                GetSubTypeId(asUINT subtypeIndex = 0) const;
 	asITypeInfo       *GetSubType(asUINT subtypeIndex = 0) const;
 	asUINT             GetSubTypeCount() const;
+	// Postal 3-related - Kizoky
+	int                GetSubTypeUniqueId(asUINT subtypeIndex = 0) const;
+	int                GetSubTypeInheritId(asUINT subtypeIndex = 0) const;
+
 	asUINT             GetInterfaceCount() const;
 	asITypeInfo       *GetInterface(asUINT index) const;
 	bool               Implements(const asITypeInfo *objType) const;

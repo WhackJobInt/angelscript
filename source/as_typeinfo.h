@@ -91,6 +91,10 @@ public:
 	asITypeInfo     *GetSubType(asUINT subtypeIndex = 0) const { UNUSED_VAR(subtypeIndex); return 0; }
 	asUINT           GetSubTypeCount() const { return 0; }
 
+	// Postal 3-related - Kizoky
+	int              GetSubTypeUniqueId(asUINT subtypeIndex = 0) const { UNUSED_VAR(subtypeIndex); return -2; }
+	int              GetSubTypeInheritId(asUINT subtypeIndex = 0) const { UNUSED_VAR(subtypeIndex); return -2; }
+
 	// Interfaces
 	asUINT           GetInterfaceCount() const { return 0; }
 	asITypeInfo     *GetInterface(asUINT index) const { UNUSED_VAR(index); return 0; }
