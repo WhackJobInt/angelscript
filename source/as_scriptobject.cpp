@@ -787,7 +787,10 @@ int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
 	if (prop >= objType->properties.GetLength())
 		return asINVALID_ARG;
 
-	return objType->properties[prop]->type.GetTypeInfo()->uniqueId;
+	if (objType->properties[prop]->type.GetTypeInfo())
+		return objType->properties[prop]->type.GetTypeInfo()->uniqueId;
+
+	return -2;
 }
 
 int asCScriptObject::GetPropertyInheritId(asUINT prop) const
@@ -795,7 +798,10 @@ int asCScriptObject::GetPropertyInheritId(asUINT prop) const
 	if (prop >= objType->properties.GetLength())
 		return asINVALID_ARG;
 
-	return objType->properties[prop]->type.GetTypeInfo()->inheritId;
+	if (objType->properties[prop]->type.GetTypeInfo())
+		return objType->properties[prop]->type.GetTypeInfo()->inheritId;
+
+	return -2;
 }
 
 asUINT asCScriptObject::GetPropertyCount() const
