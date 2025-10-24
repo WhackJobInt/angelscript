@@ -699,7 +699,7 @@ public:
 	virtual int    GetGlobalPropertyIndexByDecl(const char *decl) const = 0;
 
 	// Object types
-	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags, int uniqueId = -1) = 0;
+	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags, int uniqueId = -1, int inheritId = -1) = 0;
 	virtual int            RegisterObjectProperty(const char *obj, const char *declaration, int byteOffset, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
 	virtual int            RegisterObjectMethod(const char *obj, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
 	virtual int            RegisterObjectBehaviour(const char *obj, asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false) = 0;
@@ -761,6 +761,9 @@ public:
 	virtual asITypeInfo   *GetTypeInfoById(int typeId) const = 0;
 	virtual asITypeInfo   *GetTypeInfoByName(const char *name) const = 0;
 	virtual asITypeInfo   *GetTypeInfoByDecl(const char *decl) const = 0;
+	
+	// Postal 3-related - Kizoky
+	virtual asITypeInfo   *GetTypeInfoByUniqueId(int uniqueId) const = 0;
 
 	// Script execution
 	virtual asIScriptContext      *CreateContext() = 0;
@@ -1046,11 +1049,9 @@ public:
 
 	// Postal 3-related - Kizoky
 	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
-	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
-	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
-	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
-	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
-	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class
+	virtual int            GetInheritId() const = 0; // Kizoky: inherit id (default: -1; no inheritance)
+	virtual int            GetPropertyUniqueId(asUINT prop) const = 0; // Kizoky: gets the property's unique id, if there is any
+	virtual int            GetPropertyInheritId(asUINT prop) const = 0; // Kizoky: gets the property's inherit id, if there is any
 
 	// Type info
 	virtual int            GetTypeId() const = 0;
@@ -1089,11 +1090,7 @@ public:
 
 	// Postal 3-related - Kizoky
 	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
-	virtual void*          GetOwner() const = 0; // Kizoky: owner pointer
-	virtual void           SetOwner(void* ptr) = 0; // Kizoky: set owner pointer, also sets HasOwner to true
-	virtual bool           HasOwner() const = 0; // Kizoky: Have I ever had an owner?
-	virtual const char*    GetScriptClass() const = 0; // Kizoky: The name of the AS class this object is tied to
-	virtual void           SetScriptClass(const char* value) = 0; // Kizoky: Sets the new script class
+	virtual int            GetInheritId() const = 0; // Kizoky: inherit id (default: -1; no inheritance)
 
 	// Type info
 	virtual const char      *GetName() const = 0;

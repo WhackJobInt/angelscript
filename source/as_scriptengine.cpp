@@ -1813,7 +1813,7 @@ asCTypeInfo* asCScriptEngine::GetTemplateSubTypeByName(const asCString &name)
 	return subtype;
 }
 
-int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD flags, int uniqueId)
+int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD flags, int uniqueId, int inheritId)
 {
 	int r;
 
@@ -1946,6 +1946,7 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 		type->accessMask = defaultAccessMask;
 		// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
 		type->uniqueId	 = uniqueId;
+		type->inheritId  = inheritId;
 
 		// Store it in the object types
 		allRegisteredTypes.Insert(asSNameSpaceNamePair(type->nameSpace, type->name), type);
@@ -6483,6 +6484,18 @@ int asCScriptEngine::DetermineNameAndNamespace(const char *in_name, asSNameSpace
 	return 0;
 }
 
+// Postal 3
+asITypeInfo* asCScriptEngine::GetTypeInfoByUniqueId(int uniqueId) const
+{
+	// Check the object types
+	for (asUINT n = 0; n < registeredObjTypes.GetLength(); n++)
+	{
+		if (registeredObjTypes[n]->uniqueId == uniqueId)
+			return registeredObjTypes[n];
+	}
+
+	return 0;
+}
 
 // interface
 asITypeInfo *asCScriptEngine::GetTypeInfoById(int typeId) const

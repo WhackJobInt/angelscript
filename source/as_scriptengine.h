@@ -101,7 +101,7 @@ public:
 	virtual int    GetGlobalPropertyIndexByDecl(const char *decl) const;
 
 	// Type registration
-	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags, int uniqueId = -1);
+	virtual int            RegisterObjectType(const char *obj, int byteSize, asQWORD flags, int uniqueId = -1, int inheritId = -1);
 	virtual int            RegisterObjectProperty(const char *obj, const char *declaration, int byteOffset, int compositeOffset = 0, bool isCompositeIndirect = false);
 	virtual int            RegisterObjectMethod(const char *obj, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false);
 	virtual int            RegisterObjectBehaviour(const char *obj, asEBehaviours behaviour, const char *declaration, const asSFuncPtr &funcPointer, asDWORD callConv, void *auxiliary = 0, int compositeOffset = 0, bool isCompositeIndirect = false);
@@ -164,6 +164,9 @@ public:
 	virtual asITypeInfo   *GetTypeInfoById(int typeId) const;
 	virtual asITypeInfo   *GetTypeInfoByName(const char *name) const;
 	virtual asITypeInfo   *GetTypeInfoByDecl(const char *decl) const;
+
+	// Postal 3
+	virtual asITypeInfo   *GetTypeInfoByUniqueId(int uniqueId) const;
 
 	// Script execution
 	virtual asIScriptContext      *CreateContext();

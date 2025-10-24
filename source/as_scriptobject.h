@@ -84,11 +84,9 @@ public:
 
 	// Postal 3-related - Kizoky
 	int            GetUniqueId() const; // Kizoky: unique id
-	void*          GetOwner() const; // Kizoky: Get the "owner"
-	void           SetOwner(void* ptr); // Kizoky: set the owner
-	bool           HasOwner() const; // Kizoky: Have I ever had an owner pointer?
-	const char*    GetScriptClass() const; // Kizoky: The script class this object is tied to
-	void           SetScriptClass(const char* value); // Kizoky: Sets the script class
+	int            GetInheritId() const; // Kizoky: inherit id
+	int            GetPropertyUniqueId(asUINT prop) const;
+	int            GetPropertyInheritId(asUINT prop) const;
 
 	// Type info
 	int            GetTypeId() const;

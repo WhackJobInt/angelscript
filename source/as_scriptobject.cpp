@@ -777,29 +777,25 @@ int asCScriptObject::GetUniqueId() const
 	return objType->uniqueId;
 }
 
-void* asCScriptObject::GetOwner() const
+int asCScriptObject::GetInheritId() const
 {
-	return objType->owner;
+	return objType->inheritId;
 }
 
-void asCScriptObject::SetOwner(void* ptr)
+int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
 {
-	objType->owner = ptr;
+	if (prop >= objType->properties.GetLength())
+		return asINVALID_ARG;
+
+	return objType->properties[prop]->type.GetTypeInfo()->uniqueId;
 }
 
-bool asCScriptObject::HasOwner() const
+int asCScriptObject::GetPropertyInheritId(asUINT prop) const
 {
-	return objType->hasOwner;
-}
+	if (prop >= objType->properties.GetLength())
+		return asINVALID_ARG;
 
-const char* asCScriptObject::GetScriptClass() const
-{
-	return objType->scriptClass.AddressOf();
-}
-
-void asCScriptObject::SetScriptClass(const char* value)
-{
-	objType->scriptClass = value;
+	return objType->properties[prop]->type.GetTypeInfo()->inheritId;
 }
 
 asUINT asCScriptObject::GetPropertyCount() const
