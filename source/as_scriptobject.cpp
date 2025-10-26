@@ -774,12 +774,12 @@ int asCScriptObject::GetTypeId() const
 
 int asCScriptObject::GetUniqueId() const
 {
-	return objType->uniqueId;
+	return objType->GetUniqueId();
 }
 
 int asCScriptObject::GetInheritId() const
 {
-	return objType->inheritId;
+	return objType->GetInheritId();
 }
 
 int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
@@ -788,7 +788,7 @@ int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
 		return asINVALID_ARG;
 
 	if (objType->properties[prop]->type.GetTypeInfo())
-		return objType->properties[prop]->type.GetTypeInfo()->uniqueId;
+		return objType->properties[prop]->type.GetTypeInfo()->GetUniqueId();
 
 	return -2;
 }
@@ -799,7 +799,7 @@ int asCScriptObject::GetPropertyInheritId(asUINT prop) const
 		return asINVALID_ARG;
 
 	if (objType->properties[prop]->type.GetTypeInfo())
-		return objType->properties[prop]->type.GetTypeInfo()->inheritId;
+		return objType->properties[prop]->type.GetTypeInfo()->GetInheritId();
 
 	return -2;
 }

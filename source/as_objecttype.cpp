@@ -200,7 +200,7 @@ int asCObjectType::GetSubTypeUniqueId(asUINT subtypeIndex) const
 
 	// Return is an object type
 	if (dt.GetTypeInfo())
-		return dt.GetTypeInfo()->uniqueId;
+		return dt.GetTypeInfo()->GetUniqueId();
 
 	// All types should be covered by below. If not, the variable type is not really a type
 	switch (dt.GetTokenType())
@@ -239,7 +239,7 @@ int asCObjectType::GetSubTypeInheritId(asUINT subtypeIndex) const
 
 	// Return is an object type
 	if (dt.GetTypeInfo())
-		return dt.GetTypeInfo()->inheritId;
+		return dt.GetTypeInfo()->GetInheritId();
 
 	return -2;
 }

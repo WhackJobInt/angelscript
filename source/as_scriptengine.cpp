@@ -2019,6 +2019,7 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 			type->accessMask = defaultAccessMask;
 			// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
 			type->uniqueId = uniqueId;
+			type->inheritId = inheritId;
 
 			allRegisteredTypes.Insert(asSNameSpaceNamePair(type->nameSpace, type->name), type);
 			registeredObjTypes.PushLast(type);
@@ -2083,6 +2084,7 @@ int asCScriptEngine::RegisterObjectType(const char *name, int byteSize, asQWORD 
 			type->accessMask = defaultAccessMask;
 			// Kizoky: register a unique Id for quick access, by default it is -1 which is invalid
 			type->uniqueId = uniqueId;
+			type->inheritId = inheritId;
 
 			templateInstanceTypes.PushLast(type);
 
@@ -3720,6 +3722,8 @@ asCObjectType *asCScriptEngine::GetTemplateInstanceType(asCObjectType *templateT
 	ot->size             = templateType->size;
 	ot->name             = templateType->name;
 	ot->nameSpace        = templateType->nameSpace;
+	ot->uniqueId         = templateType->uniqueId;
+	ot->inheritId        = templateType->inheritId;
 
 	// If the template is being requested from a module, then the module should hold a reference to the type
 	if( requestingModule )
