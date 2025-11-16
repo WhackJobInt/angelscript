@@ -1100,7 +1100,7 @@ const char *asCModule::GetGlobalVarDeclaration(asUINT index, bool includeNamespa
 }
 
 // interface
-int asCModule::GetGlobalVar(asUINT index, const char **out_name, const char **out_nameSpace, int *out_typeId, bool *out_isConst) const
+int asCModule::GetGlobalVar(asUINT index, const char **out_name, const char **out_nameSpace, int *out_typeId, bool *out_isConst, int *out_uniqueId) const
 {
 	const asCGlobalProperty *prop = m_scriptGlobals.Get(index);
 	if (!prop) return asINVALID_ARG;
@@ -1113,6 +1113,13 @@ int asCModule::GetGlobalVar(asUINT index, const char **out_name, const char **ou
 		*out_typeId = m_engine->GetTypeIdFromDataType(prop->type);
 	if( out_isConst )
 		*out_isConst = prop->type.IsReadOnly();
+	if (out_uniqueId)
+	{
+		if (prop->type.GetTypeInfo())
+			*out_uniqueId = prop->type.GetTypeInfo()->GetUniqueId();
+		else
+			*out_uniqueId = -2;
+	}
 
 	return asSUCCESS;
 }
