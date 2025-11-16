@@ -782,6 +782,11 @@ int asCScriptObject::GetInheritId() const
 	return objType->GetInheritId();
 }
 
+bool asCScriptObject::IsRefNoCount() const
+{
+	return objType->IsRefNoCount();
+}
+
 int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
 {
 	if (prop >= objType->properties.GetLength())

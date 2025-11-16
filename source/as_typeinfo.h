@@ -78,6 +78,7 @@ public:
 	// Postal 3-related - Kizoky
 	int              GetUniqueId() const; // Kizoky: unique id
 	int              GetInheritId() const; // Kizoky: the "inherit" id
+	bool             IsRefNoCount() const; // Kizoky: is this a ref and no count type?
 
 	// Type info
 	const char      *GetName() const;

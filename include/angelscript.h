@@ -1052,6 +1052,7 @@ public:
 	virtual int            GetInheritId() const = 0; // Kizoky: inherit id (default: -1; no inheritance)
 	virtual int            GetPropertyUniqueId(asUINT prop) const = 0; // Kizoky: gets the property's unique id, if there is any
 	virtual int            GetPropertyInheritId(asUINT prop) const = 0; // Kizoky: gets the property's inherit id, if there is any
+	virtual bool           IsRefNoCount() const = 0;
 
 	// Type info
 	virtual int            GetTypeId() const = 0;
@@ -1091,6 +1092,7 @@ public:
 	// Postal 3-related - Kizoky
 	virtual int            GetUniqueId() const = 0; // Kizoky: unique id (default: -1)
 	virtual int            GetInheritId() const = 0; // Kizoky: inherit id (default: -1; no inheritance)
+	virtual bool           IsRefNoCount() const = 0;
 
 	// Type info
 	virtual const char      *GetName() const = 0;

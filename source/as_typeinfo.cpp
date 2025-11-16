@@ -236,6 +236,12 @@ int asCTypeInfo::GetTypeId() const
 
 int asCTypeInfo::GetUniqueId() const
 {
+	// No need to bother with the checks below if it is higher than -1
+	if (uniqueId > -1)
+	{
+		return uniqueId;
+	}
+
 	asCDataType& dt = engine->GetDataTypeFromTypeId(GetTypeId());
 	if (dt.IsNullHandle())
 		return asTYPEID_VOID;
@@ -266,6 +272,19 @@ int asCTypeInfo::GetUniqueId() const
 int asCTypeInfo::GetInheritId() const
 {
 	return inheritId;
+}
+
+bool asCTypeInfo::IsRefNoCount() const
+{
+	if (typeId == -1)
+		GetTypeId();
+
+	if ((flags & (asOBJ_REF | asOBJ_NOCOUNT)))
+	{
+		return true;
+	}
+
+	return false;
 }
 
 // interface

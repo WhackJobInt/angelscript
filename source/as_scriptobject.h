@@ -87,6 +87,7 @@ public:
 	int            GetInheritId() const; // Kizoky: inherit id
 	int            GetPropertyUniqueId(asUINT prop) const;
 	int            GetPropertyInheritId(asUINT prop) const;
+	bool           IsRefNoCount() const;
 
 	// Type info
 	int            GetTypeId() const;
