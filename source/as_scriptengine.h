@@ -297,6 +297,9 @@ public:
 
 	int ConfigError(int err, const char *funcName, const char *arg1, const char *arg2);
 
+	// Postal 3
+	int                GetUniqueIdFromDataType(const asCDataType &dt) const;
+
 	int                GetTypeIdFromDataType(const asCDataType &dt) const;
 	asCDataType        GetDataTypeFromTypeId(int typeId) const;
 	asCObjectType     *GetObjectTypeFromTypeId(int typeId) const;

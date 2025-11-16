@@ -5068,6 +5068,78 @@ void asCScriptEngine::SetCircularRefDetectedCallback(asCIRCULARREFFUNC_t callbac
 	gc.circularRefDetectCallbackParam = param;
 }
 
+int asCScriptEngine::GetUniqueIdFromDataType(const asCDataType& dtIn) const
+{
+	if (dtIn.IsNullHandle()) return asTYPEID_VOID;
+
+	if (dtIn.GetTypeInfo() == 0)
+	{
+		// Primitives have pre-fixed typeIds
+		switch (dtIn.GetTokenType())
+		{
+		case ttVoid:   return asTYPEID_VOID;
+		case ttBool:   return asTYPEID_BOOL;
+		case ttInt8:   return asTYPEID_INT8;
+		case ttInt16:  return asTYPEID_INT16;
+		case ttInt:    return asTYPEID_INT32;
+		case ttInt64:  return asTYPEID_INT64;
+		case ttUInt8:  return asTYPEID_UINT8;
+		case ttUInt16: return asTYPEID_UINT16;
+		case ttUInt:   return asTYPEID_UINT32;
+		case ttUInt64: return asTYPEID_UINT64;
+		case ttFloat:  return asTYPEID_FLOAT;
+		case ttDouble: return asTYPEID_DOUBLE;
+		default:
+			// All types should be covered by the above. The variable type is not really a type
+			asASSERT(dtIn.GetTokenType() == ttQuestion || dtIn.IsAuto());
+			return -1;
+		}
+	}
+
+	int typeId = -1;
+	asCTypeInfo* ot = dtIn.GetTypeInfo();
+	asASSERT(ot != &functionBehaviours);
+	// Object's hold the typeId themselves
+	typeId = ot->typeId;
+
+	if (typeId == -1)
+	{
+		ACQUIREEXCLUSIVE(engineRWLock);
+		// Make sure another thread didn't determine the typeId while we were waiting for the lock
+		if (ot->typeId == -1)
+		{
+			typeId = typeIdSeqNbr++;
+			if (ot->flags & asOBJ_SCRIPT_OBJECT) typeId |= asTYPEID_SCRIPTOBJECT;
+			else if (ot->flags & asOBJ_TEMPLATE) typeId |= asTYPEID_TEMPLATE;
+			else if (ot->flags & asOBJ_ENUM) {} // TODO: Should we have a specific bit for this?
+			else typeId |= asTYPEID_APPOBJECT;
+
+			ot->typeId = typeId;
+
+			mapTypeIdToTypeInfo.Insert(typeId, ot);
+		}
+		RELEASEEXCLUSIVE(engineRWLock);
+	}
+
+	// Add flags according to the requested type
+	if (dtIn.GetTypeInfo())
+	{
+		if (!(dtIn.GetTypeInfo()->flags & asOBJ_ASHANDLE))
+		{
+			// The ASHANDLE types behave like handles, but are really
+			// value types so the typeId is never returned as a handle
+			if (dtIn.IsObjectHandle())
+				typeId |= asTYPEID_OBJHANDLE;
+			if (dtIn.IsHandleToConst())
+				typeId |= asTYPEID_HANDLETOCONST;
+		}
+
+		return dtIn.GetTypeInfo()->GetUniqueId();
+	}
+
+	return -2;
+}
+
 int asCScriptEngine::GetTypeIdFromDataType(const asCDataType &dtIn) const
 {
 	if( dtIn.IsNullHandle() ) return asTYPEID_VOID;

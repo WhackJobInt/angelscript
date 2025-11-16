@@ -1118,7 +1118,7 @@ int asCModule::GetGlobalVar(asUINT index, const char **out_name, const char **ou
 		if (prop->type.GetTypeInfo())
 			*out_uniqueId = prop->type.GetTypeInfo()->GetUniqueId();
 		else
-			*out_uniqueId = -2;
+			*out_uniqueId = m_engine->GetUniqueIdFromDataType(prop->type);
 	}
 
 	return asSUCCESS;

@@ -192,34 +192,7 @@ int asCObjectType::GetSubTypeUniqueId(asUINT subtypeIndex) const
 	if (subtypeIndex >= templateSubTypes.GetLength())
 		return -3;
 
-	const asCDataType& dt = templateSubTypes[subtypeIndex];
-
-	// void function
-	if (dt.IsNullHandle())
-		return asTYPEID_VOID;
-
-	// Return is an object type
-	if (dt.GetTypeInfo())
-		return dt.GetTypeInfo()->GetUniqueId();
-
-	// All types should be covered by below. If not, the variable type is not really a type
-	switch (dt.GetTokenType())
-	{
-		case ttVoid:   return asTYPEID_VOID;
-		case ttBool:   return asTYPEID_BOOL;
-		case ttInt8:   return asTYPEID_INT8;
-		case ttInt16:  return asTYPEID_INT16;
-		case ttInt:    return asTYPEID_INT32;
-		case ttInt64:  return asTYPEID_INT64;
-		case ttUInt8:  return asTYPEID_UINT8;
-		case ttUInt16: return asTYPEID_UINT16;
-		case ttUInt:   return asTYPEID_UINT32;
-		case ttUInt64: return asTYPEID_UINT64;
-		case ttFloat:  return asTYPEID_FLOAT;
-		case ttDouble: return asTYPEID_DOUBLE;
-	}
-
-	return -2;
+	return engine->GetUniqueIdFromDataType(templateSubTypes[subtypeIndex]);
 }
 
 int asCObjectType::GetSubTypeInheritId(asUINT subtypeIndex) const

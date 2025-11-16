@@ -789,6 +789,10 @@ int asCScriptObject::GetPropertyUniqueId(asUINT prop) const
 
 	if (objType->properties[prop]->type.GetTypeInfo())
 		return objType->properties[prop]->type.GetTypeInfo()->GetUniqueId();
+	else
+	{
+		return objType->engine->GetUniqueIdFromDataType(objType->properties[prop]->type);
+	}
 
 	return -2;
 }
