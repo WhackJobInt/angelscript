@@ -328,6 +328,28 @@ int asCGeneric::GetArgTypeId(asUINT arg, asDWORD *flags) const
 	}
 }
 
+int asCGeneric::GetArgUniqueId(asUINT arg) const
+{
+	if (arg >= (unsigned)sysFunction->parameterTypes.GetLength())
+		return 0;
+
+	asCDataType* dt = &sysFunction->parameterTypes[arg];
+	if (dt->GetTokenType() != ttQuestion)
+		return engine->GetUniqueIdFromDataType(*dt);
+	else
+	{
+		int offset = 0;
+		for (asUINT n = 0; n < arg; n++)
+			offset += sysFunction->parameterTypes[n].GetSizeOnStackDWords();
+
+		// Skip the actual value to get to the type id
+		offset += AS_PTR_SIZE;
+
+		// Get the value
+		return stackPointer[offset];
+	}
+}
+
 // interface
 int asCGeneric::SetReturnByte(asBYTE val)
 {
@@ -557,6 +579,27 @@ int asCGenericVariadic::GetArgTypeId(asUINT arg, asDWORD* flags) const
 	asCDataType* dt = GetArgDataType(idx);
     if (dt->GetTokenType() != ttQuestion)
 		return engine->GetTypeIdFromDataType(*dt);
+	else
+	{
+		int offset = GetArgOffsetOnStack(arg); // Use "arg" here to iterate all arguments
+
+		// Skip the actual value to get to the type id
+		offset += AS_PTR_SIZE;
+
+		// Get the value
+		return stackPointer[offset];
+	}
+}
+
+int asCGenericVariadic::GetArgUniqueId(asUINT arg) const
+{
+	asUINT idx = arg;
+	if (idx >= sysFunction->parameterTypes.GetLength() - 1)
+		idx = sysFunction->parameterTypes.GetLength() - 1;
+
+	asCDataType* dt = GetArgDataType(idx);
+	if (dt->GetTokenType() != ttQuestion)
+		return engine->GetUniqueIdFromDataType(*dt);
 	else
 	{
 		int offset = GetArgOffsetOnStack(arg); // Use "arg" here to iterate all arguments

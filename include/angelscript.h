@@ -1022,6 +1022,7 @@ public:
 	virtual void   *GetArgAddress(asUINT arg) = 0;
 	virtual void   *GetArgObject(asUINT arg) = 0;
 	virtual void   *GetAddressOfArg(asUINT arg) = 0;
+	virtual int     GetArgUniqueId(asUINT arg) const = 0;
 
 	// Return value
 	virtual int     GetReturnTypeId(asDWORD *flags = 0) const = 0;

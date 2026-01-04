@@ -73,6 +73,7 @@ public:
 	void   *GetArgAddress(asUINT arg);
 	void   *GetArgObject(asUINT arg);
 	void   *GetAddressOfArg(asUINT arg);
+	int     GetArgUniqueId(asUINT arg) const;
 
 	// Return value
 	int     GetReturnTypeId(asDWORD *flags = 0) const;
@@ -119,6 +120,7 @@ public:
 	void*   GetArgAddress(asUINT arg);
 	void*   GetArgObject(asUINT arg);
 	void*   GetAddressOfArg(asUINT arg);
+	int     GetArgUniqueId(asUINT arg) const;
 
 	int     SetReturnObject(void* obj);
 	void*   GetAddressOfReturnLocation();
