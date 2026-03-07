@@ -351,6 +351,7 @@ enum asETypeIdFlags
 	asTYPEID_UINT64         = 9,
 	asTYPEID_FLOAT          = 10,
 	asTYPEID_DOUBLE         = 11,
+	asTYPEID_ENUM           = 12, // Added unique identifier for enums - Kizoky
 	asTYPEID_OBJHANDLE      = 0x40000000,
 	asTYPEID_HANDLETOCONST  = 0x20000000,
 	asTYPEID_MASK_OBJECT    = 0x1C000000,
@@ -721,7 +722,7 @@ public:
 	virtual int GetDefaultArrayTypeId() const = 0;
 
 	// Enums
-	virtual int          RegisterEnum(const char *type) = 0;
+	virtual int          RegisterEnum(const char *type, int uniqueId = -1) = 0;
 	virtual int          RegisterEnumValue(const char *type, const char *name, int value) = 0;
 	virtual asUINT       GetEnumCount() const = 0;
 	virtual asITypeInfo *GetEnumByIndex(asUINT index) const = 0;

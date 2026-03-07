@@ -266,6 +266,9 @@ int asCTypeInfo::GetUniqueId() const
 		case ttDouble: return asTYPEID_DOUBLE;
 	}
 
+	if (dt.IsEnumType())
+		return asTYPEID_ENUM;
+
 	return uniqueId;
 }
 

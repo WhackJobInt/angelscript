@@ -5096,6 +5096,9 @@ int asCScriptEngine::GetUniqueIdFromDataType(const asCDataType& dtIn) const
 		}
 	}
 
+	if (dtIn.IsEnumType())
+		return asTYPEID_ENUM;
+
 	int typeId = -1;
 	asCTypeInfo* ot = dtIn.GetTypeInfo();
 	asASSERT(ot != &functionBehaviours);
@@ -6339,7 +6342,7 @@ asITypeInfo *asCScriptEngine::GetTypedefByIndex(asUINT index) const
 }
 
 // interface
-int asCScriptEngine::RegisterEnum(const char *name)
+int asCScriptEngine::RegisterEnum(const char *name, int uniqueId)
 {
 	//	Check the name
 	if( NULL == name )
@@ -6384,6 +6387,7 @@ int asCScriptEngine::RegisterEnum(const char *name)
 	st->size = 4;
 	st->name = name;
 	st->nameSpace = defaultNamespace;
+	st->uniqueId = uniqueId; // Added unique id for enums - Kizoky
 
 	allRegisteredTypes.Insert(asSNameSpaceNamePair(st->nameSpace, st->name), st);
 	registeredEnums.PushLast(st);
