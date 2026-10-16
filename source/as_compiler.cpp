@@ -12738,8 +12738,24 @@ int asCCompiler::InstantiateTemplateFunctions(asCArray<int>& funcs, asCScriptNod
 	return 0;
 }
 
-int asCCompiler::CompileFunctionCall(asCScriptNode *node, asCExprContext *ctx, asCObjectType *objectType, bool objIsConst, const asCString &scope)
+int asCCompiler::CompileFunctionCall(asCScriptNode *node, asCExprContext *ctx, asCObjectType *objectType, bool objIsConst, const asCString &requestedScope)
 {
+	// Add support for `BaseClass::<function>` - Kizoky
+	asCString scope = requestedScope;
+	asCObjectType *baseClass = 0;
+	if (scope == "BaseClass")
+	{
+		if (objectType || isCompilingDefaultArg || !outFunc || !outFunc->objectType || !outFunc->objectType->derivedFrom)
+		{
+			Error("BaseClass:: requires an instance method of a class with a parent", node);
+			return -1;
+		}
+
+		baseClass = outFunc->objectType->derivedFrom;
+		scope = baseClass->name;
+		objIsConst = outFunc->IsReadOnly();
+	}
+
 	asCExprValue tempObj;
 	asCArray<int> funcs;
 	int localVar = -1;
@@ -12755,7 +12771,9 @@ int asCCompiler::CompileFunctionCall(asCScriptNode *node, asCExprContext *ctx, a
 	// Find the matching entities
 	// If objectType is set then this is a post op expression and we shouldn't look for local variables
 	asCExprContext lookupResult(engine);
-	SYMBOLTYPE symbolType = SymbolLookup(name, scope, objectType, &lookupResult, node);
+	
+	// Add support for `BaseClass::<function>` - Kizoky
+	SYMBOLTYPE symbolType = baseClass ? SymbolLookupMember(name, baseClass, &lookupResult) : SymbolLookup(name, scope, objectType, &lookupResult, node);
 	if (symbolType < 0)
 		return -1;
 	if (symbolType == SL_NOMATCH)
